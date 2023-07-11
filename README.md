@@ -1,3 +1,4 @@
+![Alt text](Screenshot%202023-07-11%20at%2019.30.54.png?raw=true)
 ### **Intro**
 
 Drug and biotech development is an expensive and slow process. A single therapy might take up to 10 years to develop and anywhere between $300M-2.2B. 

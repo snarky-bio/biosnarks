@@ -1,0 +1,39 @@
+javascript
+import { SnarkyCircuit } from 'snarkjs';
+
+export class DockingCircuit extends SnarkyCircuit {
+  ...
+}
+import { multiExponentiate } from 'snarkjs';
+
+public calculateWitness(): any {
+  const receptorData = retrieveProteinData(this.inputs.receptor);
+  const ligandData = retrieveProteinData(this.inputs.ligand);
+  const solutionData = retrieveSolutionData(this.inputs.solution);
+
+  const bindingEnergy = calculateBindingEnergy(receptorData, ligandData, solutionData);
+  const optimized = checkOptimization(bindingEnergy);
+
+  // Use the Kimchi proof system's optimized multi-exponentiation function
+  const values = multiExponentiate([receptorData, ligandData, solutionData, bindingEnergy, optimized], this.field);
+  return values;
+}
+import { readProvingKey } from 'snarkjs';
+
+public getProvingKey(): any {
+  const keyData = readProvingKey('proving_key.bin');
+
+  const keyValues = [
+    this.field.newFieldElement(keyData[0]),
+    this.field.newFieldElement(keyData[1][0]),
+    this.field.newFieldElement(keyData[1][1]),
+    this.field.newFieldElement(keyData[2][0][0]),
+    this.field.newFieldElement(keyData[2][0][1]),
+    this.field.newFieldElement(keyData[2][1][0]),
+    this.field.newFieldElement(keyData[2][1][1]),
+    this.field.newFieldElement(keyData[3][0]),
+    this.field.newFieldElement(keyData[3][1]),
+  ];
+
+  return keyValues;
+}

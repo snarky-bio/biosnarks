@@ -1,0 +1,79 @@
+// Protein docking / optimization
+
+//minimal code:
+
+import { groth16 } from 'snarkjs';
+import { Circuit, MultiplierInput } from './circuit'; // Your custom circuit implementation
+
+// Define the inputs to the circuit
+const inputs: MultiplierInput = {
+  a: 10,
+  b: 20,
+};
+
+// Create an instance of your custom circuit
+const circuit = new Circuit(inputs);
+
+// Generate the proof using the Groth16 algorithm
+const proof = groth16.fullProve(circuit.getProvingKey(), circuit.calculateWitness());
+
+// Verify the proof using the Verifier Smart Contract on the MINA blockchain
+// The verifier contract would take the proof as an input, along with any additional metadata
+// The contract would then check the proof's validity and return a Boolean indicating success or failure
+// The verifier contract should also have measures in place to prevent sensitive data leakage
+
+//Elaboration of a Circuit for Protein Docking:
+
+import { Circuit } from 'snarkjs';
+
+export interface DockingInput {
+  receptor: string; // A unique identifier for the receptor protein
+  ligand: string; // A unique identifier for the ligand protein
+  solution: string; // A unique identifier for the optimized docking solution
+}
+
+export class DockingCircuit implements Circuit {
+  private readonly inputs: DockingInput;
+
+  constructor(inputs: DockingInput) {
+    this.inputs = inputs;
+  }
+
+  public calculateWitness(): any {
+    // Retrieve the relevant data from your database or other storage mechanism
+    const receptorData = retrieveProteinData(this.inputs.receptor);
+    const ligandData = retrieveProteinData(this.inputs.ligand);
+    const solutionData = retrieveSolutionData(this.inputs.solution);
+
+    // Calculate the necessary values for the zk-proof
+    const bindingEnergy = calculateBindingEnergy(receptorData, ligandData, solutionData);
+    const optimized = checkOptimization(bindingEnergy);
+
+    // Return the witness data as an array of BigInts
+    return [BigInt(receptorData), BigInt(ligandData), BigInt(solutionData), BigInt(bindingEnergy), BigInt(optimized)];
+  }
+
+  public getProvingKey(): any {
+    // Load the proving key for the circuit from disk or other storage mechanism
+    const keyData = loadProvingKeyData();
+
+    // Return the key data as an array of BigInts
+    return [BigInt(keyData.a), BigInt(keyData.b1[0]), BigInt(keyData.b1[1]), BigInt(keyData.b2[0][0]), BigInt(keyData.b2[0][1]), BigInt(keyData.b2[1][0]), BigInt(keyData.b2[1][1]), BigInt(keyData.c[0]), BigInt(keyData.c[1])];
+  }
+
+  public getPublicInputs(): any[] {
+    // Return the public inputs for the circuit as an array of BigInts
+    return [BigInt(this.inputs.receptor), BigInt(this.inputs.ligand), BigInt(this.inputs.solution)];
+  }
+
+  public getProvingKeyLength(): number {
+    // Return the length of the proving key in bytes
+    return 0;
+  }
+
+  public getWitnessLength(): number {
+    // Return the length of the witness data in bytes
+    return 0;
+  }
+}
+

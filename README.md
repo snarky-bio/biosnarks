@@ -30,7 +30,7 @@ Currently there is a huge demand to accelerate bioscience discovery by resource 
 
 As of 2018, academic spinouts and small biotech startups have surpassed Big Pharma with respect to the number of best-selling drugs approved, with 24/30 (80%) originating outside of Big Pharma. This signals an extensive need to interact between industry and other players, including decentralized, with tools that can lead to improvement.
 
-**We propose BioSNARKS, a zk- that could be implemented to biological and biochemical pipeline processes to prove work, optimization, state, prediction, protocol or knowledge, without revealing processes or IP sensitive information.**
+**We propose BioSNARKS, a zk-stack that could be implemented to biological and biochemical pipeline processes to prove work, optimization, state, prediction, protocol or knowledge, without revealing processes or IP sensitive information.**
 
 Detailed example of use cases:
 

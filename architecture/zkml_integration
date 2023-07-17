@@ -1,0 +1,39 @@
+const { Circuit, groth16 } = require('snarkjs');
+const ezkl = require('ezkl');
+
+// Mock data for the ligand and output ranking
+const ligand = 'my_private_ligand_data'; // Example private ligand data
+const outputRanking = [1, 2, 3, 4, 5]; // Example output ranking from the neural network
+
+// Define the circuit class
+class ModelVerificationCircuit extends Circuit {
+  calculateWitness() {
+    // Calculate the witness values based on the ligand and output ranking
+    // ...
+  }
+
+  getProvingKey() {
+    // Load the proving key for the circuit
+    return require('./proving_key.json'); // Replace with the actual path to your proving key file
+  }
+
+  getPublicInputs() {
+    // Return the public inputs for the circuit (ligand and output ranking)
+    return [ligand, ...outputRanking];
+  }
+}
+
+// Instantiate the circuit class
+const circuit = new ModelVerificationCircuit();
+
+// Compile the circuit using ezkl
+const compiledCircuit = ezkl.compile(circuit);
+
+// Generate the proof using the compiled circuit and witness
+const proof = groth16.fullProve(compiledCircuit.r1cs, circuit.getProvingKey(), circuit.calculateWitness());
+
+// Verify the proof
+const verificationKey = require('./verification_key.json'); // Replace with the actual path to your verification key file
+const isValid = groth16.verify(verificationKey, proof, circuit.getPublicInputs());
+
+console.log('Proof is valid:', isValid);

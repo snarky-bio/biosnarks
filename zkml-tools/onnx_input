@@ -1,0 +1,9 @@
+test_confidence_dataset = ConfidenceDataset(split="train", cache_path="data/cacheNew", original_model_dir="workdir/paper_score_model", device=device, limit_complexes=0, inference_steps=args.inference_steps, samples_per_complex=args.samples_per_complex, all_atoms=True, model_ckpt=args.ckpt, args=args)
+
+sample_complex_graph = test_confidence_dataset.get(0)
+num_node_features = 3
+num_nodes = len(sample_complex_graph['ligand'].pos)
+dummy_input = torch.zeros(1, num_node_features, num_nodes)
+dummy_input = dummy_input.to('cuda')
+
+torch.onnx.export(model, dummy_input, "network.onnx", verbose=True)
